@@ -1,0 +1,151 @@
+$corEspecial: rgb(20, 131, 44); // criando variável unica
+
+$cores: ( // criando várias variaveis dentro de uma
+  primaria: #005dff,
+  primaria-luz: lighten(#005dff, 40%),
+  primaria-dark: darken(#005dff, 40%),
+  secundaria: #fff6bb);
+
+$padding: 15px;
+$borders: 15px;
+
+@function cores2($nomeDaCor) {
+  @return map-get($cores, $nomeDaCor);
+}
+
+$desktop: 840px;
+
+@mixin desktop {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
+
+body,
+html {
+  height: 100%;
+  // background-color: $corEspecial;    //forma de referenciar unidade de variavel feita solta
+  // color: map-get($cores, primaria);   // modo de refenciar variavel feita em grupo dentro de uma
+}
+
+body {
+  font-family: "Montserrat";
+  margin: 0;
+
+  #bg {
+    clip-path: polygon(50% 0%, 100% 0, 100% 78%, 45% 100%, 0 100%, 0 0);
+    // background-color: map-get($cores, primaria); // ao inves disso pode-se utilizar de funções (como está na linha de baixo junto com a 9);
+    background-color: cores2(primaria);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+
+    @include desktop {
+      clip-path: polygon(0 0, 75% 0, 55% 100%, 0% 100%);
+    }
+  }
+
+  header a {
+    color: white;
+    text-decoration: none;
+    padding: $padding;
+    text-transform: uppercase;
+  }
+}
+
+main {
+  @include desktop {
+    display: grid;
+    grid-template-columns: 50% auto;
+    grid-template-areas: "primária cartão";
+  }
+
+  section#cartão {
+    background: white;
+    padding: 20px;
+    margin: 1em auto;
+    border-radius: $borders;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 80%;
+
+    @include desktop {
+      grid-area: cartão;
+      height: fit-content;
+      align-self: center;
+      margin: 1em;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+
+      li {
+        margin-bottom: 10px;
+
+        span {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          background-color: cores2(primaria-luz);
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        strong {
+          display: inline-block;
+          margin-left: max(40px);
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  section#primária {
+    color: #fff;
+    padding: $padding;
+    text-align: center;
+
+    @include desktop {
+      grid-area: primária;
+      text-align: left;
+      margin: 4em 0 0 4em;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-top: 10px;
+      text-transform: uppercase;
+
+      @include desktop {
+        width: 30%;
+        font-size: 4em;
+        line-height: .9em;
+      }
+    }
+
+    p {
+      font-size: 1.4em;
+    }
+
+    a {
+      color: cores2(primaria-dark);
+      border-radius: $borders;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: bold;
+      background-color: cores2(secundaria);
+      display: block;
+      text-align: center;
+      margin: 50px auto 0 auto;
+      padding: $padding;
+
+      @include desktop {
+        display: inline-block;
+        padding: $padding $padding * 4;
+      }
+    }
+  }
+}
